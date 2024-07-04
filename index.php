@@ -12,37 +12,29 @@ echo "{$lion->name} a 💙 {$lion->life} points de vie.<br>";
 
 $round = 1;
 
+function attack($round, $attacker, $defender):bool
+{
+    echo $attacker->fight($defender);
+
+    if (!$defender->isAlive()) {
+        echo "<br>💀 {$defender->name} is dead<br>";
+        echo "🏆 {$attacker->name} wins (💙 {$attacker->life})<br>";
+        return false;
+    }
+
+    if ($round % 10 === 0) {
+        echo $attacker->heal();
+    }
+
+    return true;
+}
+
 // Boucle de combat
 while ($heracles->isAlive() && $lion->isAlive()) {
     echo "<br>🕛 Round #{$round}<br>";
 
-
-    // Héraclès attaque le Lion de Némée
-    echo $heracles->fight($lion);
-
-    if (!$lion->isAlive()) {
-        echo "<br>💀 {$lion->name} is dead<br>";
-        echo "🏆 {$heracles->name} wins (💙 {$heracles->life})<br>";
+    if (!attack($round, $heracles, $lion) || !attack($round, $lion, $heracles)) {
         break;
-    }
-
-    // Héraclès se soigne de temps en temps
-    if ($round % 10 === 0) {
-        echo $heracles->heal();
-    }
-
-
-    // Le Lion de Némée attaque Héraclès
-    echo $lion->fight($heracles);
-    if (!$heracles->isAlive()) {
-        echo "<br>💀 {$heracles->name} is dead<br>";
-        echo "🏆 {$lion->name} wins (💙 {$lion->life})<br>";
-        break;
-    }
-
-    // Le Lion de Némée se soigne de temps en temps
-    if ($round % 10 === 1) {
-        echo $lion->heal();
     }
 
     $round++;

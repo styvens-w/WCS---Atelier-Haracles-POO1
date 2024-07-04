@@ -1,7 +1,5 @@
 <?php
 
-use Random\RandomException;
-
 class Fighter
 {
     const int MAX_LIFE = 100;
@@ -19,9 +17,6 @@ class Fighter
         $this->life = self::MAX_LIFE;
     }
 
-    /**
-     * @throws RandomException
-     */
     public function fight(Fighter $opponent): string
     {
         // Tentative d'esquive
@@ -30,7 +25,7 @@ class Fighter
         }
 
         // Calcul des dommages
-        $damage = random_int(1, $this->strength);
+        $damage = rand(1, $this->strength);
 
         // Calcul de la défense de l'opposant
         $defense = $opponent->dexterity;
@@ -50,12 +45,9 @@ class Fighter
         return $this->life > 0;
     }
 
-    /**
-     * @throws RandomException
-     */
     public function heal(): string
     {
-        $healPoints = random_int(5, 15);
+        $healPoints = rand(5, 15);
 
         if ($this->life + $healPoints <= self::MAX_LIFE) {
             $this->life = min(self::MAX_LIFE, $this->life + $healPoints);
@@ -65,13 +57,10 @@ class Fighter
         return "";
     }
 
-    /**
-     * @throws RandomException
-     */
     public function dodge(): bool
     {
         // Probabilité d'esquive basée sur la dextérité
         $dodgeChance = $this->dexterity / 100;
-        return random_int(0, 100) / 100 < $dodgeChance;
+        return rand(0, 100) / 100 < $dodgeChance;
     }
 }
